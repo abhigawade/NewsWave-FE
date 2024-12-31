@@ -23,11 +23,11 @@ export function RegisterPage() {
   }
 
   return (
-    <div className={`flex items-center justify-center min-h-screen ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-100'}`}>
-      <Card className={`w-full max-w-md ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white'}`}>
+    <div className={`flex items-center justify-center min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>
+      <Card className={`w-full max-w-md ${theme === 'dark' ? 'bg-white text-black' : 'bg-white'}`}>
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Register for NewsWave</CardTitle>
-          <CardDescription className={theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}>
+          <CardDescription className={theme === 'dark' ? 'text-black' : 'text-gray-500'}>
             Create your account to get started
           </CardDescription>
         </CardHeader>
@@ -36,30 +36,30 @@ export function RegisterPage() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName" className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>First Name</Label>
+                  <Label htmlFor="firstName" className={theme === 'dark' ? 'text-text-black' : 'text-gray-700'}>First Name</Label>
                   <Input
                     id="firstName"
                     placeholder="Enter your first name"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     required
-                    className={`w-full ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'}`}
+                    className={`w-full ${theme === 'dark' ? 'bg-white text-black' : 'bg-white text-gray-900'}`}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName" className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>Last Name</Label>
+                  <Label htmlFor="lastName" className={theme === 'dark' ? 'text-black' : 'text-gray-700'}>Last Name</Label>
                   <Input
                     id="lastName"
                     placeholder="Enter your last name"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     required
-                    className={`w-full ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'}`}
+                    className={`w-full ${theme === 'dark' ? 'bg-white text-black' : 'bg-white text-gray-900'}`}
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email" className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>Email</Label>
+                <Label htmlFor="email" className={theme === 'dark' ? 'text-black' : 'text-gray-700'}>Email</Label>
                 <Input
                   id="email"
                   placeholder="Enter your email"
@@ -67,11 +67,11 @@ export function RegisterPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className={`w-full ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'}`}
+                  className={`w-full ${theme === 'dark' ? 'bg-white text-black' : 'bg-white text-gray-900'}`}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password" className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>Password</Label>
+                <Label htmlFor="password" className={theme === 'dark' ? 'text-black' : 'text-gray-700'}>Password</Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -80,7 +80,7 @@ export function RegisterPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className={`w-full ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'}`}
+                    className={`w-full ${theme === 'dark' ? 'bg-white text-black' : 'bg-white text-gray-900'}`}
                   />
                   <Button
                     type="button"
@@ -104,7 +104,7 @@ export function RegisterPage() {
           </form>
         </CardContent>
         <CardFooter>
-          <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+          <p className={`text-sm ${theme === 'dark' ? 'text-black' : 'text-gray-600'}`}>
             Already have an account?{" "}
             <a href="/login" className="font-medium text-blue-500 hover:underline">
               Log in here
