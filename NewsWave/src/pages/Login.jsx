@@ -21,7 +21,7 @@ export function LoginPage() {
   }
 
   return (
-    <div className={`flex items-center justify-center min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>
+    <div className={`flex justify-center py-3 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>
       <Card className={`w-full max-w-md ${theme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'}`}>
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Login to NewsWave</CardTitle>
@@ -72,7 +72,7 @@ export function LoginPage() {
                 </div>
               </div>
             </div>
-            <Button className="w-full mt-6 bg-black text-white border border-gray-300" type="submit">
+            <Button className="w-full mt-6 bg-black text-white border border-gray-300 hover:bg-black" type="submit">
               Log in
             </Button>
           </form>

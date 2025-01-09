@@ -5,15 +5,19 @@ import { RegisterPage } from "./pages/Register";
 import { Footer } from "./pages/Footer";
 import "./App.css";
 import { Homepage } from "./pages/Homepage";
+import { useState } from "react";
 
 function App() {
+
+  const [category, setCategory] = useState('general')
+
   return (
     <Router>
-      <Navbar />
+      <Navbar setCategory={setCategory}/>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/" element={<Homepage />} />
+        <Route path="/" element={<Homepage category={category}/>} />
       </Routes>
 
       <Footer />
