@@ -11,24 +11,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import logo from "../assets/testlogo3.png"
+import logo from "../assets/testlogo3.png";
 
 import { Link, NavLink } from "react-router-dom";
 
-export function Navbar({ setCategory }) {
+export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery  }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [theme, setTheme] = useState("dark");
 
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    document.documentElement.classList.toggle("dark");
-  };
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchQuery(searchTerm); // Update the parent state with the search term
+  }
 
   return (
     <nav
       className={`flex flex-col w-full ${
-        theme === "dark" ? "bg-black" : "bg-white"
+        theme === "dark" ? "bg-black text-white" : "bg-white text-black"
       }`}
     >
       <div className="flex items-center justify-between px-4 h-16 border-b border-gray-700">
@@ -48,7 +48,7 @@ export function Navbar({ setCategory }) {
           </Button>
           <NavLink to="/" className="flex items-center gap-2">
             <img
-              src={logo} 
+              src={logo}
               alt="NewsWave Logo"
               className="h-9 w-12" // Adjust height and width as per your design
             />
@@ -63,7 +63,7 @@ export function Navbar({ setCategory }) {
         </div>
 
         {/* Desktop search bar */}
-        <form className="hidden md:flex flex-1 mx-4 max-w-2xl relative">
+        <form className="hidden md:flex flex-1 mx-4 max-w-2xl relative" onSubmit={handleSearch}>
           <div className="relative w-full flex">
             <div className="relative flex-grow">
               <Search
@@ -74,6 +74,8 @@ export function Navbar({ setCategory }) {
               <Input
                 type="search"
                 placeholder="Search for topics, locations & sources"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className={`w-full pl-10 ${
                   theme === "dark"
                     ? "bg-gray-800 border-gray-700 text-white placeholder-gray-400 rounded"
@@ -100,9 +102,7 @@ export function Navbar({ setCategory }) {
           <NavLink
             to="/register"
             className={`${
-              theme === "dark"
-                ? "text-white"
-                : "text-gray-900 bg-gray-200"
+              theme === "dark" ? "text-white" : "text-gray-900 bg-gray-200"
             } px-2 py-2 rounded-md`}
           >
             Register
@@ -111,9 +111,7 @@ export function Navbar({ setCategory }) {
           <NavLink
             to="/login"
             className={`${
-              theme === "dark"
-                ? "text-white"
-                : "text-gray-900 bg-gray-200"
+              theme === "dark" ? "text-white" : "text-gray-900 bg-gray-200"
             } px-2 py-2 rounded-md`}
           >
             Login
@@ -172,19 +170,24 @@ export function Navbar({ setCategory }) {
         <Button className="px-4 py-3 md:py-2 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
           For you
         </Button>
-        <Button className="px-4 py-3 md:py-2 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
+        <Button
+         onClick={() => setSearchQuery("trends")}
+         className="px-4 py-3 md:py-2 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
           Trends
         </Button>
-        <Button className="px-4 py-3 md:py-2 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
-          Politics
-        </Button>
-        <Button className="px-4 py-3 md:py-2 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
+        <Button 
+        onClick={() => setSearchQuery("india")}
+        className="px-4 py-3 md:py-2 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
           India
         </Button>
-        <Button className="px-4 py-3 md:py-2 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
+        <Button 
+        onClick={() => setSearchQuery("world")}
+        className="px-4 py-3 md:py-2 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
           World
         </Button>
-        <Button className="px-4 py-3 md:py-2 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
+        <Button
+         onClick={() => setSearchQuery("mumbai")}
+         className="px-4 py-3 md:py-2 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
           Local
         </Button>
         <Button
@@ -211,7 +214,10 @@ export function Navbar({ setCategory }) {
         >
           Sports
         </Button>
-        <Button className="px-4 py-3 md:py-2 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors">
+        <Button
+          onClick={() => setCategory("science")}
+          className="px-4 py-3 md:py-2 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
+        >
           Science
         </Button>
         <Button
