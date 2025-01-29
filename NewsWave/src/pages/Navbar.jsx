@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import { Menu, Search, MoreVertical, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,15 +17,23 @@ import logo from "../assets/testlogo3.png";
 
 import { Link, NavLink } from "react-router-dom";
 
-export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery  }) {
+export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery, setIsAuthenticated  }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
     setSearchQuery(searchTerm); // Update the parent state with the search term
   }
+
+  const handleLogout = () => {
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+    setIsAuthenticated(false);
+    navigate("/login");
+  };
 
   return (
     <nav
@@ -99,7 +109,7 @@ export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery  }) {
 
         {/* Right side buttons */}
         <div className="flex items-center gap-2">
-          <NavLink
+          {/* <NavLink
             to="/register"
             className={`${
               theme === "dark" ? "text-white" : "text-gray-900 bg-gray-200"
@@ -115,7 +125,8 @@ export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery  }) {
             } px-2 py-2 rounded-md`}
           >
             Login
-          </NavLink>
+          </NavLink> */}
+          <button onClick={handleLogout}>Logout</button>
           <Button
             variant="ghost"
             size="icon"
