@@ -1,14 +1,12 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Twitter, Youtube, Facebook, Instagram } from "lucide-react";
 
 export function Footer({theme}) {
   return (
     <footer className={`${
       theme === "dark"
-        ? "bg-black text-white py-5"
+        ? "bg-gray-900 text-white py-5"
         : "bg-white text-black py-5"
     }`}>
       <div className="container mx-auto px-4">

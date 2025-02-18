@@ -8,15 +8,17 @@ import { Homepage } from "./pages/Homepage";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-
-  const [category, setCategory] = useState('general')
-  const [searchQuery, setSearchQuery] = useState('');
+  const [category, setCategory] = useState("general");
+  const [searchQuery, setSearchQuery] = useState("");
   const [theme, setTheme] = useState("dark");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!Cookies.get("accessToken")
+  );
+
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
@@ -24,8 +26,13 @@ function App() {
   };
 
   useEffect(() => {
+    // Check if token exists on page load (after refresh)
     const token = Cookies.get("accessToken");
-    setIsAuthenticated(!!token); // Set true if token exists
+    if (token) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -35,26 +42,43 @@ function App() {
 
   return (
     <Router>
+      <ToastContainer />
       <Routes>
         <Route path="/register" element={<RegisterPage theme={theme} />} />
-        <Route path="/login" element={<LoginPage theme={theme} setIsAuthenticated={setIsAuthenticated} />} />
+        <Route
+          path="/login"
+          element={
+            <LoginPage theme={theme} setIsAuthenticated={setIsAuthenticated} />
+          }
+        />
         {/* Only show Navbar and Footer for Homepage */}
         <Route
           path="/"
           element={
             isAuthenticated ? (
               <>
-                <Navbar theme={theme} toggleTheme={toggleTheme} setCategory={setCategory} setSearchQuery={setSearchQuery} setIsAuthenticated={setIsAuthenticated} />
-                <Homepage category={category} theme={theme} searchQuery={searchQuery} />
+                <Navbar
+                  theme={theme}
+                  toggleTheme={toggleTheme}
+                  setCategory={setCategory}
+                  setSearchQuery={setSearchQuery}
+                  setIsAuthenticated={setIsAuthenticated}
+                />
+                <Homepage
+                  category={category}
+                  theme={theme}
+                  searchQuery={searchQuery}
+                />
                 <Footer theme={theme} />
               </>
             ) : (
-              <Navigate to="/login" />
+              <>
+                <Navigate to="/login" />
+              </>
             )
           }
         />
       </Routes>
-
     </Router>
   );
 }
