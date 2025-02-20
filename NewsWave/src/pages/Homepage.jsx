@@ -42,7 +42,7 @@ export const Homepage = ({ category, theme, searchQuery }) => {
               }`}
             ></div>
           </div>
-        ) : (
+        ) : articles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {articles.map((article, index) => (
               <NewsCards
@@ -58,9 +58,12 @@ export const Homepage = ({ category, theme, searchQuery }) => {
               />
             ))}
           </div>
+        ) : (
+          <div className="text-center text-lg font-semibold py-8">
+            No Articles Available
+          </div>
         )}
       </div>
     </div>
   )
 }
-

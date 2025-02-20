@@ -4,7 +4,14 @@ import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Clock, ChevronRight, Share2, Download, Bookmark, MoreVertical } from "lucide-react";
+import {
+  Clock,
+  ChevronRight,
+  Share2,
+  Download,
+  Bookmark,
+  MoreVertical,
+} from "lucide-react";
 import breakingnews from "../assets/news.jpg";
 import CommonPopup from "../components/common/CommonPopup";
 import Sharepage from "./Sharepage";
@@ -12,7 +19,12 @@ import Translatearticle from "./Translatearticle";
 import Summerisearicle from "./Summerisearicle";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,10 +45,34 @@ const NewsCards = ({
   const [showSummeriseOptions, setShowSummeriseOptions] = useState(false);
   const [showTranslateOptions, setShowTranslateOptions] = useState(false);
 
-  const handlePrint = useReactToPrint({
-    content: () => contentRef.current,
-    documentTitle: title || "News Article",
-  });
+  const downloadArticlePDF = async (articleId) => {
+    try {
+      
+      const token = Cookies.get("accessToken");
+
+      const response = await axios({
+        url: `http://127.0.0.1:8000/article/download/${articleId}/`, 
+        method: "GET",
+        responseType: "blob", // Important for handling PDF
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
+
+      
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `article_${articleId}.pdf`); // Set the filename
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading the article:", error);
+    }
+  };
 
   const saveArticle = async () => {
     const token = Cookies.get("accessToken");
@@ -66,7 +102,7 @@ const NewsCards = ({
         "Error saving article:",
         error.response ? error.response.data : error.message
       );
-      toast.error("Failed to save the article.");
+      toast.error("Article already saved");
       setIsSaved(false);
     }
   };
@@ -78,11 +114,17 @@ const NewsCards = ({
       <CommonPopup isOpen={showShareOptions} setOpen={setShowShareOptions}>
         <Sharepage url={readMoreUrl} />
       </CommonPopup>
-      <CommonPopup isOpen={showSummeriseOptions} setOpen={setShowSummeriseOptions}>
+      <CommonPopup
+        isOpen={showSummeriseOptions}
+        setOpen={setShowSummeriseOptions}
+      >
         <Summerisearicle articleId={id} />
       </CommonPopup>
-      <CommonPopup isOpen={showTranslateOptions} setOpen={setShowTranslateOptions}>
-        <Translatearticle articleId={id} language='hi' />
+      <CommonPopup
+        isOpen={showTranslateOptions}
+        setOpen={setShowTranslateOptions}
+      >
+        <Translatearticle articleId={id} language="hi" />
       </CommonPopup>
       <div className="w-full" ref={contentRef}>
         <Card
@@ -124,7 +166,8 @@ const NewsCards = ({
                       isDark ? "text-gray-300" : "text-gray-600"
                     }`}
                   >
-                    {description || "No description available you can read news by clicking on the read more"}
+                    {description ||
+                      "No description available you can read news by clicking on the read more"}
                   </p>
                 </div>
 
@@ -141,7 +184,7 @@ const NewsCards = ({
                     }`}
                   >
                     <Clock size={16} className="mr-2 text-blue-400" />
-                    <span>{publishedAt || "Unknown date"}</span>
+                    <span>{new Date(publishedAt).toISOString().split("T")[0] || "Unknown date"}</span>
                   </div>
 
                   {/* Action Buttons */}
@@ -158,9 +201,9 @@ const NewsCards = ({
                     >
                       <Bookmark
                         size={18}
-                        className={`transition-all duration-300 ${
-                          isSaved ? "fill-current" : ""
-                        }`}
+                        // className={`transition-all duration-300 ${
+                        //   isSaved ? "fill-current" : ""
+                        // }`}
                       />
                       <span className="sr-only">Save for Later</span>
                     </Button>
@@ -179,8 +222,8 @@ const NewsCards = ({
                     </Button>
                     <Button
                       variant="ghost"
-                      onClick={handlePrint}
                       size="icon"
+                      onClick={() => downloadArticlePDF(id)}
                       className={`${
                         isDark
                           ? "text-blue-400 hover:text-blue-300 hover:bg-blue-400/10"
@@ -210,10 +253,14 @@ const NewsCards = ({
                         align="end"
                         className="w-[200px] bg-white"
                       >
-                        <DropdownMenuItem onClick={() => setShowSummeriseOptions(true)}>
+                        <DropdownMenuItem
+                          onClick={() => setShowSummeriseOptions(true)}
+                        >
                           Summarize Article
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setShowTranslateOptions(true)}>
+                        <DropdownMenuItem
+                          onClick={() => setShowTranslateOptions(true)}
+                        >
                           Translate Article
                         </DropdownMenuItem>
                       </DropdownMenuContent>
