@@ -1,38 +1,62 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import NewsCards from "./Newsboard"
+import { useEffect, useState } from "react";
+import NewsCards from "./Newsboard";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { API_URL } from "../auth/ApiUrl"
 
-export const Homepage = ({ category, theme, searchQuery }) => {
-  const [articles, setArticles] = useState([])
-  const [loading, setLoading] = useState(true)
+export const Homepage = ({ category, theme, searchQuery, UserPreference }) => {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [nextPage, setNextPage] = useState(null); // Store next page URL
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  const fetchNews = async (url, isLoadMore = false) => {
+    try {
+      if (!isLoadMore) setLoading(true);
+      else setLoadingMore(true);
+
+      const token = Cookies.get("accessToken");
+
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const {data} = await axios.get(url, { headers });
+
+      setArticles((prevArticles) =>
+        isLoadMore ? [...prevArticles, ...data.results] : data.results
+      );
+
+      setNextPage(data.next); // Update next page URL
+      setLoading(false);
+      setLoadingMore(false);
+    } catch (error) {
+      console.error("Error fetching news:", error);
+      setLoading(false);
+      setLoadingMore(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        let url = `http://127.0.0.1:8000/article/article/`
 
-        if (searchQuery) {
-          url = `http://127.0.0.1:8000/article/article/?search=${searchQuery}`
-        } else if (category) {
-          url = `http://127.0.0.1:8000/article/article/?category=${category}`
-        }
+    let url = `{ API_URL }/article/article/`;
 
-        const response = await fetch(url)
-        const data = await response.json()
-        setArticles(Array.isArray(data) ? data : [])
-        setLoading(false)
-      } catch (error) {
-        console.error("Error fetching news:", error)
-        setLoading(false)
-      }
+    if (searchQuery) {
+      url = `${API_URL}/article/article/?search=${searchQuery}`;
+    } else if (category) {
+      url = `${API_URL}/article/article/?category=${category}`;
+    } else if (UserPreference === "user-preference") {
+      url = `${API_URL}/article/by-user-preference/`;
     }
 
-    fetchNews()
-  }, [category, searchQuery])
+    fetchNews(url);
+  }, [category, searchQuery, UserPreference]);
 
   return (
-    <div className={`${theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"} min-h-screen w-full`}>
+    <div
+      className={`${
+        theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
+      } min-h-screen w-full`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {loading ? (
           <div className="flex justify-center items-center h-96">
@@ -43,21 +67,36 @@ export const Homepage = ({ category, theme, searchQuery }) => {
             ></div>
           </div>
         ) : articles.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {articles.map((article, index) => (
-              <NewsCards
-                key={index}
-                id={article.id}
-                title={article.title}
-                description={article.description}
-                urlToImage={article.url_to_image}
-                source={article.source}
-                publishedAt={article.published_at}
-                readMoreUrl={article.url}
-                theme={theme}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {articles.map((article, index) => (
+                <NewsCards
+                  key={index}
+                  id={article.id}
+                  title={article.title}
+                  description={article.description}
+                  urlToImage={article.url_to_image}
+                  source={article.source}
+                  publishedAt={article.published_at}
+                  readMoreUrl={article.url}
+                  theme={theme}
+                />
+              ))}
+            </div>
+
+            {/* Load More Button */}
+            {nextPage && (
+              <div className="flex justify-center my-6">
+                <button
+                  onClick={() => fetchNews(nextPage, true)}
+                  disabled={loadingMore}
+                  className="bg-blue-600 text-white px-4 py-1 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
+                >
+                  {loadingMore ? "Loading..." : "Load More"}
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="text-center text-lg font-semibold py-8">
             No Articles Available
@@ -65,5 +104,5 @@ export const Homepage = ({ category, theme, searchQuery }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};

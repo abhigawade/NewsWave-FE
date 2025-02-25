@@ -28,6 +28,7 @@ import {
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { API_URL } from "../auth/ApiUrl"
 
 const NewsCards = ({
   id,
@@ -51,7 +52,7 @@ const NewsCards = ({
       const token = Cookies.get("accessToken");
 
       const response = await axios({
-        url: `http://127.0.0.1:8000/article/download/${articleId}/`, 
+        url: `${API_URL}/article/download/${articleId}/`, 
         method: "GET",
         responseType: "blob", // Important for handling PDF
         headers: {
@@ -69,6 +70,7 @@ const NewsCards = ({
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      toast.success("Article Downloaded!");
     } catch (error) {
       console.error("Error downloading the article:", error);
     }
@@ -79,7 +81,7 @@ const NewsCards = ({
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/savedArticle/saved-articles/",
+        `${API_URL}/savedArticle/saved-articles/`,
         { article_id: id },
         {
           headers: {

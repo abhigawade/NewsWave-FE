@@ -18,8 +18,9 @@ import CommonPopup from "../components/common/CommonPopup"
 import UserProfile from "./UserProfile"
 import Userpreferences from "./Userpreferences"
 import Savedarticles from "./Savedarticles"
+import { API_URL } from "../auth/ApiUrl"
 
-export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery, setIsAuthenticated }) {
+export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery, setIsAuthenticated, setUserPreference }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [isProfileOpen, setIsProfileOpen] = useState(false)
@@ -44,7 +45,7 @@ export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery, setIsA
   const fetchUserProfile = async () => {
     try {
       const token = Cookies.get("accessToken")
-      const response = await axios.get(`http://127.0.0.1:8000/authentication/profile/`, {
+      const response = await axios.get(`${API_URL}/authentication/profile/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -68,18 +69,54 @@ export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery, setIsA
       name: "Home",
       action: () => {
         setSearchQuery("")
+        setUserPreference("")
         setCategory("general")
       },
     },
-    { name: "For you", action: () => {} },
-    { name: "Trends", action: () => setSearchQuery("trends") },
-    { name: "India", action: () => setSearchQuery("india") },
-    { name: "Travel", action: () => setSearchQuery("travel") },
-    { name: "Food", action: () => setSearchQuery("food") },
+    {
+      name: "For you",
+      action: () => {
+        setSearchQuery("");
+        setCategory(""); 
+        setUserPreference("user-preference"); 
+      },
+    },
+    // { name: "Trends", action: () => setSearchQuery("trends") },
+    {
+      name: "Trends",
+      action: () => {
+        setSearchQuery("")
+        setUserPreference("")
+        setCategory("trends")
+      },
+    },
+    {
+      name: "India",
+      action: () => {
+        setSearchQuery("")
+        setCategory("india")
+      },
+    },
+    {
+      name: "Travel",
+      action: () => {
+        setSearchQuery("")
+        setUserPreference("")
+        setCategory("travel")
+      },
+    },
+    {
+      name: "Food",
+      action: () => {
+        setSearchQuery("")
+        setCategory("food")
+      },
+    },
     {
       name: "Business",
       action: () => {
         setSearchQuery("")
+        setUserPreference("")
         setCategory("business")
       },
     },
@@ -87,13 +124,15 @@ export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery, setIsA
       name: "Technology",
       action: () => {
         setSearchQuery("")
-        setCategory("tech")
+        setUserPreference("")
+        setCategory("technology")
       },
     },
     {
       name: "Entertainment",
       action: () => {
         setSearchQuery("")
+        setUserPreference("")
         setCategory("entertainment")
       },
     },
@@ -101,6 +140,7 @@ export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery, setIsA
       name: "Sports",
       action: () => {
         setSearchQuery("")
+        setUserPreference("")
         setCategory("sports")
       },
     },
@@ -108,6 +148,7 @@ export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery, setIsA
       name: "Science",
       action: () => {
         setSearchQuery("")
+        setUserPreference("")
         setCategory("science")
       },
     },
@@ -115,6 +156,7 @@ export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery, setIsA
       name: "Health",
       action: () => {
         setSearchQuery("")
+        setUserPreference("")
         setCategory("health")
       },
     },
@@ -122,6 +164,7 @@ export function Navbar({ theme, toggleTheme, setCategory, setSearchQuery, setIsA
       name: "Politics",
       action: () => {
         setSearchQuery("")
+        setUserPreference("")
         setCategory("politics")
       },
     },

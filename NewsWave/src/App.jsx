@@ -10,10 +10,14 @@ import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { use } from "react";
+import { API_URL } from "./auth/ApiUrl"
 
 function App() {
   const [category, setCategory] = useState("general");
   const [searchQuery, setSearchQuery] = useState("");
+  const [UserPreference, setUserPreference] = useState("");
   const [theme, setTheme] = useState("dark");
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!Cookies.get("accessToken")
@@ -40,6 +44,30 @@ function App() {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
 
+  useEffect(() => {
+    const fetchUserPreferences = async () => {
+      try {
+        const token = Cookies.get("accessToken");
+        if (!token) return;
+
+        const response = await axios.get(
+          `${API_URL}/userPreference/userPreference/`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (response.status === 200) {
+          setUserPreference(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching user preferences:", error);
+      }
+    };
+
+    fetchUserPreferences();
+  }, []);
+
   return (
     <Router>
       <ToastContainer />
@@ -63,11 +91,13 @@ function App() {
                   setCategory={setCategory}
                   setSearchQuery={setSearchQuery}
                   setIsAuthenticated={setIsAuthenticated}
+                  setUserPreference={setUserPreference}
                 />
                 <Homepage
                   category={category}
                   theme={theme}
                   searchQuery={searchQuery}
+                  UserPreference={UserPreference}
                 />
                 <Footer theme={theme} />
               </>

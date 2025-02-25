@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { API_URL } from "../auth/ApiUrl"
 
 export function LoginPage({ setIsAuthenticated }) {
   const [email, setEmail] = useState("")
@@ -24,7 +25,7 @@ export function LoginPage({ setIsAuthenticated }) {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/authentication/login/", {
+      const response = await axios.post(`${API_URL}/authentication/login/`, {
         email,
         password,
       });

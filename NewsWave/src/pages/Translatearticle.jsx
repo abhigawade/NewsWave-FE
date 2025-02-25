@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { Book, Loader2 } from "lucide-react"
 import Cookies from "js-cookie";
+import { API_URL } from "../auth/ApiUrl"
 
 export default function TranslateArticle({ articleId, language }) {
   const [translatedTitle, setTranslatedTitle] = useState("")
@@ -15,7 +16,7 @@ export default function TranslateArticle({ articleId, language }) {
       const token = Cookies.get("accessToken");
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/article/translate/${articleId}/?language=${language}`,
+          `${API_URL}/article/translate/${articleId}/?language=${language}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import axios from "axios";
+import { API_URL } from "../auth/ApiUrl"
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,7 +28,7 @@ export function RegisterPage() {
     setSuccessMessage("");
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/authentication/register/", {
+      const response = await axios.post(`${API_URL}/authentication/register/`, {
         email,
         first_name: firstName,
         last_name: lastName,
