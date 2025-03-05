@@ -4,19 +4,13 @@ import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Clock,
-  ChevronRight,
-  Share2,
-  Download,
-  Bookmark,
-  MoreVertical,
-} from "lucide-react";
+import { Clock, ChevronRight, Share2, Download, Bookmark, MoreVertical, MessageSquare } from 'lucide-react';
 import breakingnews from "../assets/news.jpg";
 import CommonPopup from "../components/common/CommonPopup";
 import Sharepage from "./Sharepage";
 import Translatearticle from "./Translatearticle";
 import Summerisearicle from "./Summerisearicle";
+import Comments from "./Commentpage";
 import Cookies from "js-cookie";
 import axios from "axios";
 import {
@@ -45,6 +39,7 @@ const NewsCards = ({
   const [showShareOptions, setShowShareOptions] = useState(false);
   const [showSummeriseOptions, setShowSummeriseOptions] = useState(false);
   const [showTranslateOptions, setShowTranslateOptions] = useState(false);
+  const [showComments, setShowComments] = useState(false);
 
   const downloadArticlePDF = async (articleId) => {
     try {
@@ -128,6 +123,9 @@ const NewsCards = ({
       >
         <Translatearticle articleId={id} language="hi" />
       </CommonPopup>
+      <CommonPopup isOpen={showComments} setOpen={setShowComments}>
+        <Comments articleId={id} />
+      </CommonPopup>
       <div className="w-full" ref={contentRef}>
         <Card
           className={`overflow-hidden transition-all duration-300 hover:shadow-xl ${
@@ -181,7 +179,7 @@ const NewsCards = ({
                 >
                   {/* Date */}
                   <div
-                    className={`flex items-center text-sm ${
+                    className={`flex items-center text-xs ${
                       isDark ? "text-gray-400" : "text-gray-500"
                     }`}
                   >
@@ -190,7 +188,7 @@ const NewsCards = ({
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex items-center gap-0 w-full sm:w-auto justify-end">
+                  <div className="flex  items-center gap-0 w-full sm:w-auto justify-end ">
                     <Button
                       variant="ghost"
                       size="icon"
@@ -234,6 +232,19 @@ const NewsCards = ({
                     >
                       <Download size={18} />
                       <span className="sr-only">Download</span>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setShowComments(true)}
+                      className={`${
+                        isDark
+                          ? "text-blue-400 hover:text-blue-300 hover:bg-blue-400/10"
+                          : "text-blue-600 hover:text-blue-700 hover:bg-blue-100"
+                      } transition-colors duration-300`}
+                    >
+                      <MessageSquare size={18} />
+                      <span className="sr-only">Comment</span>
                     </Button>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>

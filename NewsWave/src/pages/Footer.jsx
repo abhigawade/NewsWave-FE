@@ -12,7 +12,7 @@ export function Footer({theme}) {
       <div className="container mx-auto px-4">
         {/* Navigation Links */}
         <nav className="flex justify-center space-x-6 mb-5">
-          <Link href="/about" className="hover:text-white transition-colors">
+          <Link to="/about" className="hover:text-white transition-colors">
             About us
           </Link>
           <Link href="/contact" className="hover:text-white transition-colors">

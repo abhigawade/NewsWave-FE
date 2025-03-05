@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { use } from "react";
 import { API_URL } from "./auth/ApiUrl"
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   const [category, setCategory] = useState("general");
@@ -108,6 +109,8 @@ function App() {
             )
           }
         />
+        {/* New Route for About Us Page */}
+        <Route path="/about" element={<AboutUs theme={theme} />} />
       </Routes>
     </Router>
   );
