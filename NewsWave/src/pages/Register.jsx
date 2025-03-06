@@ -60,7 +60,7 @@ export function RegisterPage() {
         <Card className="w-full max-w-4xl overflow-hidden shadow-2xl">
           <div className="flex flex-col md:flex-row">
             <motion.div
-              className="md:w-1/2 bg-black p-8 text-white flex flex-col justify-center"
+              className="hidden sm:block md:w-1/2 bg-black p-8 text-white flex flex-col justify-center"
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -87,7 +87,7 @@ export function RegisterPage() {
                 animate={{ scaleX: 1, opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
               ></motion.div>
-              <motion.img
+              {/* <motion.img
                 src="/placeholder.svg?height=300&width=300"
                 alt="Register illustration"
                 className="mx-auto max-w-[200px] filter invert"
@@ -99,10 +99,10 @@ export function RegisterPage() {
                   type: "spring",
                   stiffness: 100,
                 }}
-              />
+              /> */}
             </motion.div>
             <motion.div
-              className="md:w-1/2 bg-white p-8"
+              className="w-full md:w-1/2 bg-white p-8"
               initial={{ x: 50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}

@@ -65,7 +65,7 @@ export function LoginPage({ setIsAuthenticated }) {
         <Card className="w-full max-w-4xl overflow-hidden shadow-2xl">
           <div className="flex flex-col md:flex-row">
             <motion.div
-              className="md:w-1/2 bg-black p-8 text-white flex flex-col justify-center"
+              className="hidden sm:block md:w-1/2 bg-black p-8 text-white flex flex-col justify-center"
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -73,17 +73,17 @@ export function LoginPage({ setIsAuthenticated }) {
               <h2 className="text-3xl font-bold mb-4">Welcome</h2>
               <p className="text-gray-300 mb-6">Log in to access your personalized NewsWave experience.</p>
               <div className="h-1 w-20 bg-white mb-8"></div>
-              <motion.img
+              {/* <motion.img
                 src="/placeholder.svg?height=300&width=300"
                 alt="Login illustration"
                 className="mx-auto max-w-[200px] filter invert"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-              />
+              /> */}
             </motion.div>
             <motion.div
-              className="md:w-1/2 bg-white p-8"
+              className="w-full md:w-1/2 bg-white p-8"
               initial={{ x: 50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
