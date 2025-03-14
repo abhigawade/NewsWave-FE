@@ -24,35 +24,59 @@ export function RegisterPage() {
   const [registrationComplete, setRegistrationComplete] = useState(false)
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError("")
-    setSuccessMessage("")
-
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccessMessage("");
+  
     try {
       const response = await axios.post(`${API_URL}/authentication/register/`, {
         email,
         first_name: firstName,
         last_name: lastName,
         password,
-      })
-
-      setSuccessMessage("Registration successful! Please log in.")
-      setRegistrationComplete(true)
-      toast.success("Registration successful")
-
+      });
+  
+      setSuccessMessage("Registration successful! Please log in.");
+      setRegistrationComplete(true);
+      toast.success("Registration successful");
+  
       // Reset form fields
-      setFirstName("")
-      setLastName("")
-      setEmail("")
-      setPassword("")
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
     } catch (error) {
-      setError(error.response?.data?.message || "Registration failed. Please try again.")
-      toast.error("Failed to register")
+      if (error.response) {
+        const errorData = error.response.data;
+  
+        if (error.response.status === 400) {
+          if (errorData.email) {
+            setError(errorData.email[0]); // "A user with this email already exists."
+            toast.error(errorData.email[0]);
+          } else if (errorData.password) {
+            setError(errorData.password.join(" ")); // Show all password validation errors
+            toast.error(errorData.password.join(" "));
+          } else if (errorData.first_name || errorData.last_name) {
+            setError("Please provide your first and last name.");
+            toast.error("Please provide your first and last name.");
+          } else {
+            setError("Invalid input. Please check your details.");
+            toast.error("Invalid input. Please check your details.");
+          }
+        } else {
+          setError("Something went wrong. Please try again.");
+          toast.error("Something went wrong. Please try again.");
+        }
+      } else {
+        setError("Network error. Please check your connection.");
+        toast.error("Network error. Please check your connection.");
+      }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">

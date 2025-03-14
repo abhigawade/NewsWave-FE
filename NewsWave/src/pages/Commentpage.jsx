@@ -200,14 +200,14 @@ export default function CommentPage({ articleId, onClose }) {
   }
 
   // Check if user can edit/delete a comment
-  const canModifyComment = (commentUserId) => {
+  const canModifyComment = (commentUser) => {
     console.log("Checking permissions:", {
       currentUser,
-      commentUserId,
-      isMatch: currentUser === commentUserId,
+      commentUserId: commentUser.email,
+      isMatch: currentUser === commentUser.email,
     })
-    // Convert both to strings or numbers for comparison
-    return String(currentUser) === String(commentUserId)
+    // Compare the current user ID with the comment user's email or ID
+    return currentUser === commentUser.email
   }
 
   return (
@@ -278,7 +278,7 @@ export default function CommentPage({ articleId, onClose }) {
               <div key={comment.id} className="bg-white border border-gray-200 rounded-lg p-4 relative">
                 {console.log("Rendering comment:", {
                   commentId: comment.id,
-                  userId: comment.user,
+                  userId: comment.user.email,
                   currentUser,
                   canModify: canModifyComment(comment.user),
                 })}
@@ -286,11 +286,15 @@ export default function CommentPage({ articleId, onClose }) {
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold">
-                      {comment.user.toString()[0]}
+                      {comment.user.first_name?.[0] || "U"}
                     </div>
                     <div>
-                      <div className="font-medium">User {comment.user}</div>
-                      <div className="text-xs text-gray-500">{formatDate(comment.created_at)}</div>
+                      <div className="flex flex-col">
+                        <div className="font-medium">
+                          {comment.user.first_name} {comment.user.last_name}
+                        </div>
+                        <div className="text-xs text-gray-500">{formatDate(comment.created_at)}</div>
+                      </div>
                     </div>
                   </div>
 
@@ -387,11 +391,15 @@ export default function CommentPage({ articleId, onClose }) {
                         <div className="flex justify-between items-start mb-2">
                           <div className="flex items-center gap-2">
                             <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold text-xs">
-                              {reply.user.toString()[0]}
+                              {reply.user.first_name?.[0] || "U"}
                             </div>
                             <div>
-                              <div className="font-medium text-sm">User {reply.user}</div>
-                              <div className="text-xs text-gray-500">{formatDate(reply.created_at)}</div>
+                              <div className="flex flex-col">
+                                <div className="font-medium text-sm">
+                                  {reply.user.first_name} {reply.user.last_name}
+                                </div>
+                                <div className="text-xs text-gray-500">{formatDate(reply.created_at)}</div>
+                              </div>
                             </div>
                           </div>
 

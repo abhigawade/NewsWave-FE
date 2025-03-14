@@ -9,6 +9,7 @@ import { API_URL } from "../auth/ApiUrl"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { set } from "date-fns"
 
 export default function Userpreferences() {
   const [preferred_topics, setPreferred_topics] = useState("")
@@ -41,11 +42,16 @@ export default function Userpreferences() {
           },
         },
       )
-      console.log(response.data)
+      
       toast.success("Preferences saved successfully")
+      setPreferred_topics("")
+      setPreferred_sources("")
+
     } catch (error) {
-      console.log(error)
-      toast.error("Failed to save preferences")
+    
+      toast.error("Prefernces already saved")
+      setPreferred_topics("")
+      setPreferred_sources("")
     }
   }
 
