@@ -47,7 +47,7 @@ export default function Summerisearicle({ articleId }) {
   }, [articleId])
 
   return (
-    <div className="flex flex-col h-[600px] max-h-[80vh] bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg overflow-hidden">
+    <div className="flex flex-col h-[600px] max-h-[80vh] bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg overflow-hidden w-full max-w-[900px] md:w-[700px] lg:w-[800px] xl:w-[900px]">
       {/* Header */}
       <div className="flex items-center justify-between p-4 text-white">
         <div className="flex items-center gap-2">

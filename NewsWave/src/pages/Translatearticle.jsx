@@ -16,13 +16,15 @@ export default function TranslateArticle({ articleId, language = "hi" }) {
 
   const languages = [
     { code: "hi", name: "Hindi" },
-    { code: "mr", name: "Marathi"},
+    { code: "mr", name: "Marathi" },
     { code: "es", name: "Spanish" },
-    { code: "fr", name: "French" },
-    { code: "de", name: "German" },
     { code: "ja", name: "Japanese" },
-    { code: "zh", name: "Chinese" },
-  ]
+    { code: "gu", name: "Gujarati" },
+    { code: "ta", name: "Tamil" },
+    { code: "te", name: "Telugu" },
+    { code: "pa", name: "Punjabi" }
+];
+
 
   const fetchTranslatedArticle = useCallback(
     async (lang) => {
@@ -57,7 +59,7 @@ export default function TranslateArticle({ articleId, language = "hi" }) {
   }, [selectedLanguage, fetchTranslatedArticle])
 
   return (
-    <div className="flex flex-col h-[600px] max-h-[80vh] bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg overflow-hidden">
+    <div className="flex flex-col h-[600px] max-h-[80vh] bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg overflow-hidden w-full max-w-[1000px] md:w-[700px] lg:w-[900px] xl:w-[1000px]">
       {/* Header with Language Selection */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 text-white">
         <div className="flex items-center gap-2">

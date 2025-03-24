@@ -259,7 +259,7 @@ export default function CommentPage({ articleId, onClose }) {
                 className="bg-blue-500 hover:bg-blue-600 text-white px-6"
                 disabled={!newComment.trim()}
               >
-                Post Comment
+                Add Comment
               </Button>
             </div>
           </div>
